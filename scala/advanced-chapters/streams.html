@@ -1,6 +1,14 @@
 <html>
+<ul>
+<li><a href="#example-1">Example #1: Simple Period</a></li>
+<li><a href="#example-2">Example #2: Fibonacci</a></li>
+<li><a href="#example-3">Example #3: Sieve of Erathosphenes</a></li>
+<li><a href="#example-4">Example #4: Paskal Triangle</a></li>
+<li><a href="#example-5">Example #5: SQRT Stream</a></li>
+</ul>
+
 <h1>Advanced Scala Chapters: Streams</h1>
-<h3>Example #1: [0, 1, 0, 1, ...]</h3>
+<h3 id = "example-1">Example #1: Simple Period</h3>
 <pre>
 object Demo extends App {
   def sieve(s: Stream[Int]): Stream[Int] =
@@ -9,14 +17,25 @@ object Demo extends App {
 }
 </pre>
 
-<h3>Example #2: Fibonacci</h3>
+<h3 id = "example-2">Example #2: Fibonacci</h3>
 <pre>
-object Demo extends App {
-  def sieve(s: Stream[Int]): Stream[Int] =
-    s.head #:: sieve (s.tail filter (_ % s.head != 0))
-  sieve (Stream.from(2)) take 10 foreach println
+// >> 0 1 1 2 3 5 8 13 21 34
+object Demo01_fib extends App {
+  val fib: Stream[Int] =
+    0 #:: 1 #:: ((fib zip fib.tail) map {case (a, b) => a + b})
+
+  println((fib take 10).foldLeft("")(_ + " " + _))
 }
 </pre>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">// &gt;&gt; 0 1 1 2 3 5 8 13 21 34</span>
+<span style="color: #008800; font-weight: bold">object</span> <span style="color: #BB0066; font-weight: bold">Demo01_fib</span> <span style="color: #008800; font-weight: bold">extends</span> <span style="color: #BB0066; font-weight: bold">App</span> <span style="color: #333333">{</span>
+  <span style="color: #008800; font-weight: bold">val</span> fib<span style="color: #008800; font-weight: bold">:</span> <span style="color: #333399; font-weight: bold">Stream</span><span style="color: #333333">[</span><span style="color: #333399; font-weight: bold">Int</span><span style="color: #333333">]</span> <span style="color: #008800; font-weight: bold">=</span>
+    <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">#::</span> <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">#::</span> <span style="color: #333333">((</span>fib zip fib<span style="color: #333333">.</span>tail<span style="color: #333333">)</span> map <span style="color: #333333">{</span><span style="color: #008800; font-weight: bold">case</span> <span style="color: #333333">(</span>a<span style="color: #333333">,</span> b<span style="color: #333333">)</span> <span style="color: #008800; font-weight: bold">=&gt;</span> a <span style="color: #333333">+</span> b<span style="color: #333333">})</span>
+
+  println<span style="color: #333333">((</span>fib take <span style="color: #0000DD; font-weight: bold">10</span><span style="color: #333333">).</span>foldLeft<span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;&quot;</span><span style="color: #333333">)(</span><span style="color: #008800; font-weight: bold">_</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot; &quot;</span> <span style="color: #333333">+</span> <span style="color: #008800; font-weight: bold">_</span><span style="color: #333333">))</span>
+<span style="color: #333333">}</span>
+</pre></div>
+
 
 <h3>Example #3: Sieve of Erathosphenes</h3>
 <pre>
