@@ -1,3 +1,47 @@
 <html>
 <h1>Advanced Scala Chapters: Streams</h1>
+<h3>Example #1: [0, 1, 0, 1, ...]</h3>
+<pre>
+object Demo extends App {
+  def sieve(s: Stream[Int]): Stream[Int] =
+    s.head #:: sieve (s.tail filter (_ % s.head != 0))
+  sieve (Stream.from(2)) take 10 foreach println
+}
+</pre>
+
+<h3>Example #2: Fibonacci</h3>
+<pre>
+object Demo extends App {
+  def sieve(s: Stream[Int]): Stream[Int] =
+    s.head #:: sieve (s.tail filter (_ % s.head != 0))
+  sieve (Stream.from(2)) take 10 foreach println
+}
+</pre>
+
+<h3>Example #3: Sieve of Erathosphenes</h3>
+<pre>
+object Demo extends App {
+  def sieve(s: Stream[Int]): Stream[Int] =
+    s.head #:: sieve (s.tail filter (_ % s.head != 0))
+  sieve (Stream.from(2)) take 10 foreach println
+}
+</pre>
+
+<h3>Example #4: Paskal Triangle</h3>
+<pre>
+object Demo extends App {
+  def sieve(s: Stream[Int]): Stream[Int] =
+    s.head #:: sieve (s.tail filter (_ % s.head != 0))
+  sieve (Stream.from(2)) take 10 foreach println
+}
+</pre>
+
+<h3>Example #5: SQRT Stream</h3>
+<pre>
+object Demo extends App {
+  def sieve(s: Stream[Int]): Stream[Int] =
+    s.head #:: sieve (s.tail filter (_ % s.head != 0))
+  sieve (Stream.from(2)) take 10 foreach println
+}
+</pre>
 </html>
