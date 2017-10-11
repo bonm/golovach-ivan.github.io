@@ -1,0 +1,8 @@
+<html>
+Nota Bene for <a href="https://ripple.com/files/ripple_consensus_whitepaper.pdf">The Ripple Protocol Consensus Algorithm</a>
+3. Ripple Consensus Algorithm
+<p><b>RPCA</b> - The Ripple Protocol consensus algorithm</p>
+<p><b>Strong correctness</b> - no fraudulent transactions will be approved AND any non-fraudulent transactions will be approved (less than 20% for RPCA)</p>
+<p><b>Weak correctness</b> - no fraudulent transactions will be approved. The consensus process will fail, but it will still not be possible to confirm a fraudulent transaction (less than 80% for RPCA).</p>
+<p></p>
+</html>
