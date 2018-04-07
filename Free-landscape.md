@@ -24,6 +24,12 @@ and
 
 # Category Theory
 ## Free Functor
+
+cats.free.Coyoneda / scalaz.Coyoneda
+
+> The free functor on `F`. This is isomorphic to `F` as long as `F` itself is a functor.
+> The function/homomorphism from `F[A]` to `Coyoneda[F,A]` exists even when `F` is not a functor.
+
 [Free Functor](https://en.wikipedia.org/wiki/Free_object#Free_functor)
 
 ## Free Applicative
