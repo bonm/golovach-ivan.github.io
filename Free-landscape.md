@@ -25,6 +25,9 @@ and
 # Category Theory
 ## Free Functor
 
+#### Yoneda lemma / Yoneda / Coyoneda
+#### Left/Right kan extension
+
 cats.free.Coyoneda / scalaz.Coyoneda
 
 > The free functor on `F`. This is isomorphic to `F` as long as `F` itself is a functor.
