@@ -7,7 +7,9 @@
   
 ## Scala 2.7.2: Manifest / ClassManifest / OptManifest / NoManifest 
 
+Рекомендуется использовать ClassTag/TypeTag.
 
+ClassManifest
 
 > Starting with version 2.7.2, Scala has added manifests, an undocumented (and still experimental) 
 > feature for reifying types. They take advantage of a pre-existing Scala feature: implicit parameters.
@@ -22,6 +24,27 @@
 > ClassManifest which can be constructed from knowing just the top-level class of a type, without necessarily
 > knowing all its argument types.** It is this type of runtime information that’s required for array
 > creation
+
+### scala.reflect.NoManifest
+```scala
+package scala.reflect
+object NoManifest extends OptManifest[Nothing] with Serializable {
+  override def toString = "<?>"
+}
+```
+Do you want to see **NoManifest**? Use existential types for example.
+```scala
+object Demo App {
+  val m = classManifest[Option[_]]
+  
+  //>> scala.Option[<?>]
+  println(m)
+  //>> List(<?>)
+  println(m.typeArguments)
+  //>> true
+  println(m.typeArguments(0) eq NoManifest)
+}
+```
 
 - Jorge Ortiz, 2008, ["Manifests: Reified Types"](http://archive.li/X4CzM)
 - Martin Odersky, 2009, ["Scala 2.8 Array paper"](http://www.scala-lang.org/old/sid/7)
