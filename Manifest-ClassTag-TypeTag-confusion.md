@@ -2,8 +2,12 @@
 # Manifest/ClassManifest/ClassTag/TypeTag Confusion
 
 ## java.lang.Class<T>
+- know some type signatures of class, no run-time representation
+- jackson pattern
+  
+## Scala 2.7.2: Manifest / ClassManifest / OptManifest / NoManifest 
 
-## Scala 2.7.2: Manifest / ClassManifest
+
 
 > Starting with version 2.7.2, Scala has added manifests, an undocumented (and still experimental) 
 > feature for reifying types. They take advantage of a pre-existing Scala feature: implicit parameters.
@@ -19,5 +23,6 @@
 > knowing all its argument types.** It is this type of runtime information that’s required for array
 > creation
 
-Jorge Ortiz, 2008, ["Manifests: Reified Types"](http://archive.li/X4CzM)
-Martin Odersky, 2009, ["Scala 2.8 Array paper"](http://www.scala-lang.org/old/sid/7)
+- Jorge Ortiz, 2008, ["Manifests: Reified Types"](http://archive.li/X4CzM)
+- Martin Odersky, 2009, ["Scala 2.8 Array paper"](http://www.scala-lang.org/old/sid/7)
+- stackoverflow: ["What's Scala's OptManifest and NoManifest for?"](https://stackoverflow.com/questions/12651542/whats-scalas-optmanifest-and-nomanifest-for)
