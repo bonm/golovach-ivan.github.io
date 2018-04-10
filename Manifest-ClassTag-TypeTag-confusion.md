@@ -46,6 +46,28 @@ object Demo App {
 }
 ```
 
+### scala.reflect.Manifest incorrect work
+Do you want to see Manifest incorrect work? 
+Use variance for example.
+```scala
+object Demo extends App {
+  def isSubType[A: Manifest, B: Manifest] = manifest[A] <:< manifest[B]
+  class Foo[K]
+  //>> true - wrong! (Foo - invariant not co-variant)
+  println(isSubType[Foo[Int], Foo[Any]])
+}
+```
+Or generics and subtyping
+```scala
+object Demo extends App {
+  def isSubType[A: Manifest, B: Manifest] = manifest[A] <:< manifest[B]
+  class Parent[A]
+  class Child[A] extends Parent[A]
+  //>> false - wrong!
+  println(isSubType[Child[String], Parent[String]])
+}
+```
+
 - Jorge Ortiz, 2008, ["Manifests: Reified Types"](http://archive.li/X4CzM)
 - Martin Odersky, 2009, ["Scala 2.8 Array paper"](http://www.scala-lang.org/old/sid/7)
 - stackoverflow: ["What's Scala's OptManifest and NoManifest for?"](https://stackoverflow.com/questions/12651542/whats-scalas-optmanifest-and-nomanifest-for)
