@@ -28,7 +28,39 @@ trait Manifest[T] extends ClassManifest[T] ... {
 
 OptManifest = NoManifest | ClassManifest | Manifest (Algebraic Data Type)
 
-Рекомендуется использовать ClassTag/TypeTag.
+Для создания массива необходимо и достаточно ClassManifest/Manifest powerful enough.
+```scala
+import scala.reflect.Manifest
+
+object Demo extends App {
+  // Error: cannot find class tag for element type T
+  // def newArray0[T](len: Int) = new Array[T](len)
+  def newArray1[T: ClassManifest](len: Int) = new Array[T](len)
+  def newArray2[T: Manifest](len: Int) = new Array[T](len)
+
+  //>> [null, null, null]
+  println(newArray1[Option[String]](3).mkString("[", ", ", "]"))
+  //>> [null, null, null]
+  println(newArray2[Option[String]](3).mkString("[", ", ", "]"))
+}
+```
+
+Однако, например, в случае с existential types сила Manifest **слишком велика**
+```scala
+import scala.reflect.Manifest
+
+object Demo extends App {
+  def newArray1[T: ClassManifest](len: Int) = new Array[T](len)
+  def newArray2[T: Manifest](len: Int) = new Array[T](len)
+
+  type O = Option[_] // existential type
+
+  //>> [null, null, null]
+  println(newArray1[O](3).mkString("[", ", ", "]"))
+  // Compile-time error
+  // println(newArray2[O](3).mkString("[", ", ", "]"))
+}
+```
 
 ClassManifest
 
