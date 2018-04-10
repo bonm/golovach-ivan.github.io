@@ -10,6 +10,9 @@
 Механизм Manifest (scala.reflect.{Manifest, ClassManifest, OptManifest, NoManifest}) появился в scala 2.7.2 c основной задачей - через подстановку implicit parameters компилятором обеспечить run-time information для native java array creation (в Java 9 типов массивов = 8 для примитивов + Object). Т.е. для Java важно отличать `new Array[Int]` от `new Array[String]`, но не `Array[Option[Int]]` от `Array[Option[String]]`.
 
 ClassManifest - ослабленная версия Manifest. Старается, по-возможности, заполнить все type parameters. Если не получается (например, в случае с existential types) - использует `object NoManifest` (через механизм OptManifest).
+
+OptManifest = NoManifest | ClassManifest | Manifest (Algebraic Data Type)
+
 ```scala
 type ClassManifest[T]  = scala.reflect.ClassTag[T]
 ...
@@ -25,8 +28,6 @@ trait Manifest[T] extends ClassManifest[T] ... {
   ...
 }
 ```
-
-OptManifest = NoManifest | ClassManifest | Manifest (Algebraic Data Type)
 
 Для создания массива необходимо и достаточно ClassManifest/Manifest powerful enough.
 ```scala
