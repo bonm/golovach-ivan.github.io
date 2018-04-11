@@ -13,10 +13,11 @@
 > 1. compose new trees; and 
 > 2. inspect structures of trees.
 
-- Abstract syntax
-  - first-order abstract syntax (FOAS)
-  -  higher-order abstract syntax (HOAS)
-- concrete syntax tree (parse tree, parsing tree, derivation tree)
++ concrete syntax tree (parse tree, parsing tree, derivation tree)
++ Abstract syntax
+  + first-order abstract syntax (FOAS)
+  +  higher-order abstract syntax (HOAS)
+
 
 - Burmako, Shabalin, June 2014, "Easy Metaprogramming For Everyone!" [PDF](http://scalamacros.org/paperstalks/2014-06-17-EasyMetaprogrammingForEveryone.pdf), [VIDEO](https://www.youtube.com/watch?v=twokmzbDzqA)
 - Burmako, June 2016, "Metaprogramming 2.0" [PDF](http://scalamacros.org/paperstalks/2016-06-17-Metaprogramming20.pdf), [VIDEO](https://www.youtube.com/watch?v=IPnd_SZJ1nM)
