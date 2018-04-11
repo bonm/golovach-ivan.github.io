@@ -18,7 +18,7 @@
   + first-order abstract syntax (FOAS)
   +  higher-order abstract syntax (HOAS)
 
-
+## Links
 - Burmako, Shabalin, June 2014, "Easy Metaprogramming For Everyone!" [PDF](http://scalamacros.org/paperstalks/2014-06-17-EasyMetaprogrammingForEveryone.pdf), [VIDEO](https://www.youtube.com/watch?v=twokmzbDzqA)
 - Burmako, June 2016, "Metaprogramming 2.0" [PDF](http://scalamacros.org/paperstalks/2016-06-17-Metaprogramming20.pdf), [VIDEO](https://www.youtube.com/watch?v=IPnd_SZJ1nM)
 - Fengyun Liu, Eugene Burmako, 2017, ["Two Approaches to Portable Macros"](https://www.dropbox.com/s/2xzcczr3q77veg1/gestalt.pdf)
