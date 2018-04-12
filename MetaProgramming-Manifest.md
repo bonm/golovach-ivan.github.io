@@ -121,7 +121,21 @@ object Demo extends App {
   println(isSubType[Child[String], Parent[String]])
 }
 ```
+## TypeTag / ClassTag
 
+> Like scala.reflect.Manifest, TypeTags can be thought of as objects which carry along all type information available at compile time, 
+> to runtime. For example, TypeTag[T] encapsulates the runtime type representation of some compile-time type T. Note however, that 
+> **TypeTags should be considered to be a richer replacement of the pre-2.10 notion of a Manifest, that are additionally fully integrated 
+> with Scala reflection.**
+
+> There exist three different types of TypeTags:
+> 1. **scala.reflect.api.TypeTags#TypeTag**. *A full type descriptor* of a Scala type. For example, a TypeTag[List[String]] contains all type information, in this case, of type scala.List[String]. 
+> 2. **scala.reflect.ClassTag**. *A partial type descriptor* of a Scala type. For example, a ClassTag[List[String]] contains only the erased class type information, in this case, of type scala.collection.immutable.List. ClassTags provide access only to the runtime class of a type. Analogous to scala.reflect.ClassManifest. 
+> 3. **scala.reflect.api.TypeTags#WeakTypeTag**. *A type descriptor for abstract types*.
+
+## Links
+- docs.scala-lang.org: [Reflection: TypeTags and Manifests](http://docs.scala-lang.org/overviews/reflection/typetags-manifests.html)
 - Jorge Ortiz, 2008, ["Manifests: Reified Types"](http://archive.li/X4CzM)
 - Martin Odersky, 2009, ["Scala 2.8 Array paper"](http://www.scala-lang.org/old/sid/7)
 - stackoverflow: ["What's Scala's OptManifest and NoManifest for?"](https://stackoverflow.com/questions/12651542/whats-scalas-optmanifest-and-nomanifest-for)
+- 
