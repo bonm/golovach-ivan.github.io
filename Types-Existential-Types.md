@@ -15,6 +15,17 @@
 > of the language. The approach was later developed, formalized, and proven type sound by Igarashi and Viroli [17]
 > within the Featherweight GJ calculus [15].
 
+> The central idea of wildcards is pretty simple. Generics in the Java programming language allow classes like the Java
+> platform API class List to be parameterized with different element types, e.g., List<Integer> and List<String>. In GJ there
+> is no general way to abstract over such different kinds of
+> lists to exploit their common properties, although polymorphic methods may play this role in specific situations. A
+> wildcard is a special type argument ‘?’ ranging over all possible specific type arguments, so that **List<?> is the type of
+> all lists, regardless of their element type**.
+
+> The motivation behind wildcards is to increase the flexibility of generic types by abstracting over the actual arguments of a parameterized type.
+
+
+
 ## Scala Existential Types: 'forSome' and 'wildcard'
 ## Scala: Existential Types \ Type Members duality
 ## 5
