@@ -1,6 +1,8 @@
 # Scala General View
 
 ## Soundness
+- [Odersky, "Type projection is unsound"](https://github.com/lampepfl/dotty/issues/1050)
+- [Dotty: Dropped: General Type Projection](http://dotty.epfl.ch/docs/reference/dropped/type-projection.html)
 
 ## Syntax
 
@@ -10,7 +12,7 @@
   - written in java-with-patterns/pizza
 - nsc compiler for 2.0-2.10
   - some use of functional capabilities of Scala
-- scalac for 2.11 (ncs-based)
+- scalac for 2.11 (ncs-based) (??? and for 2.12 ???)
   - REPL
   - presentation compiler for IDE (Eclipse, Ensime)
   - run-time metaprogramming with toolboxes
