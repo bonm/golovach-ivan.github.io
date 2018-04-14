@@ -5,7 +5,8 @@
 ## Syntax
 
 ## Compilers
-- scalac for 1.x 
+- javac 1.3+
+- scalac for 1.x (javac based)
   - written in java-with-patterns/pizza
 - nsc compiler for 2.0-2.10
   - some use of functional capabilities of Scala
@@ -24,6 +25,8 @@
 >   - map a typed tree to the untyped tree from which it is derived,
 >   - map an untyped tree to the set of typed trees that derive from it.
 
+## Language Server Protocol
+
 ## Dictionary
 > The Scala IDE for Eclipse uses the Scala Presentation Compiler, a faster asynchronous version of the Scala Compiler. The presentation 
 > compiler only runs the phases up until and including the typer phase, that is, the first 4 of the 27 scala compilation phases. The IDE 
@@ -41,3 +44,4 @@
 ## Links
 - Odersky, 2015, ["JVMLS 2015 - Compilers are Databases"](https://www.youtube.com/watch?v=WxyyJyB_Ssc)
 - [Dotty Presentation Compiler discussion](https://github.com/lampepfl/dotty/issues/1523)
+- [Compiler Internals, 2009, scalac] (http://www.scala-lang.org/old/node/598)
