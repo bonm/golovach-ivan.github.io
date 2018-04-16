@@ -22,6 +22,7 @@ Free semi-groups are the free objects in the category of all semi-groups.
 
 Theorem #1:
 Любая полугруппа S является гомоморфным образом свободной полугруппы A+ на произвольном множестве A, порождающем S.
+Every semigroup is a homomorphic image of a free one.
 
 Free semigroup properties
 - remember all applied operations
