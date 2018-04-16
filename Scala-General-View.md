@@ -18,6 +18,9 @@
   - run-time metaprogramming with toolboxes
 
 ## Dotty Architecture
+
+### dsc = Dotty scala Compiler
+
 > Dotty treats positions a bit differently from scalac. The architecture is as follows:
 > 1. There are untyped and typed trees. Both kinds of trees are immutable. The job of the typer is to map one to the other.
 > 2. Untyped trees are very close to source and have precise range positions. For instance, for-expression generators and filters are expressed as particular untyped trees.
