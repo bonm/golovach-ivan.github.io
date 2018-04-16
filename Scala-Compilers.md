@@ -21,6 +21,8 @@
 
 ### dsc = Dotty scala Compiler
 
+![ER diagram of core compiler architecture](https://image.slidesharecdn.com/jvm-languages-summit-160104082516/95/compilers-are-databases-45-638.jpg)
+
 > Dotty treats positions a bit differently from scalac. The architecture is as follows:
 > 1. There are untyped and typed trees. Both kinds of trees are immutable. The job of the typer is to map one to the other.
 > 2. Untyped trees are very close to source and have precise range positions. For instance, for-expression generators and filters are expressed as particular untyped trees.
