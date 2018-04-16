@@ -1,3 +1,25 @@
+Def: semigroup (несущее множество/носитель полугруппы + Определяющие отношения)
+
+Def: Носитель полугруппы
+
+Def: Система образующих
+
+Def: Определяющие отношения
+
+Def: свободная полугруппа.
+Если в полугруппе нет определяющих отношений, то она называется свободной.
+
+Забывающее отображение
+
+Theorem #1:
+Любая полугруппа S является гомоморфным образом свободной полугруппы A+ на произвольном множестве A, порождающем S.
+
+Free semigroup properties
+- remember all applied operations
+- universal property
+
+---
+
 - What if Free Monad? Is it like Reader/State/Writer/Parser/ect?
 - Why Free Monad is 'Free'?
 - What is Free Functor, Free Applicative?
