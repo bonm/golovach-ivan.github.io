@@ -13,4 +13,5 @@
 ### Parser
 ### State
 
-??? IO, Future
+??? cats.effect.IO, SDK.Future, scalaz.effect.IO, scalaz.concurrent.Task
+??? cats.Eval, cats.Async
