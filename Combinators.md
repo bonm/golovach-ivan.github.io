@@ -1,5 +1,20 @@
 # Combinators as Lifestyle
 
+- Value Combinators
+  - Data-Value Combinators
+    - Fixed-size set (Example: Bool, Ord)
+    - yyy
+  - Data-Function Combinators (Function, Monad, Applicative, Finagle)
+    - Function
+    - Parser
+    - Monad
+- Type Combinators
+  - Product/Copoduct
+    - AlgDT
+    - Finch
+  - Subtype-of
+  - Be-TypeClass-for
+
 ## What is Combinators?
 [First](https://wiki.haskell.org/Combinator)
 > Combinator - a function or definition with no free variables (a pure lambda-expression that refers only to its arguments).
@@ -18,7 +33,7 @@
 ### Example #1: Bool
 Bool = {T, F}
 
-|   &   | F | T |    
+|   &   | F | T |
 |-------|---|---|
 | **F** | F | F |
 | **T** | F | T |
