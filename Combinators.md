@@ -28,20 +28,87 @@
 Итак, Combinator - это операция на типе (моносортная) или типах (полисортная).
 
 ## Type - fixed-size set
-Рассмотрим простейший случай, тип - множество фиксированного размера (т.е. нет констант/образующих/генераторов и правил композиции), операцию можно задать таблично.
+Рассмотрим простейший случай, тип - множество фиксированного размера, операцию можно задать таблично.
 
 ### Example #1: Bool
-Bool = {T, F}
+Рассмотрим булевский тип, но для интереса рассмотрим не scala.Boolean, а наш собственный Bool. Добавим в него для интереса неопреленный тип `?`.
+Bool = {T, F, ?}
 
-|   &   | F | T |
-|-------|---|---|
-| **F** | F | F |
-| **T** | F | T |
+```scala
+object Bool extends Enumeration {
+  type Bool = Value
+  val T, F, ? = Value
+}
+```
 
-|  \|   | F | T |    
-|-------|---|---|
-| **F** | F | T |
-| **T** | T | T |
+зададим Boolean Algebra - набор из унарного и пары бинарных операций (~, &, |)
+```scala
+  trait BooleanAlgebra[A] {
+    def &(p: A, q: A): A
+    def |(p: A, q: A): A
+    def ~(p: A): A
+  }
+```
+
+создадим для Booleaan Algebra - переход к префиксному/инфиксному виду операторов
+```scala
+  implicit class BoolAlgebraOps[A](p: A)(implicit alg: BooleanAlgebra[A]) {
+    def &(q: A): A = alg.&(p, q)
+    def |(q: A): A = alg.|(p, q)
+    def unary_~(): A = alg.~(p)
+  }
+```
+And: '&'
+
+|   &   | F | T | ? |
+|-------|---|---|---|
+| **F** | F | F | F |
+| **T** | F | T | ? |
+| **?** | F | ? | ? |
+
+Or: '|'
+
+|  \|   | T | F | ? |    
+|-------|---|---|---|
+| **T** | T | T | T |
+| **F** | T | T | ? |
+| **?** | T | ? | ? |
+
+Not: '~'
+
+|   ~   | T | F | ? |    
+|-------|---|---|---|
+|       | F | T | ? |
+
+Можем создать BooleanAlgebra для типа Bool. Значения оператора задаем просто таблично.
+```scala
+  implicit val boolBooleanAlgebra = new BooleanAlgebra[Bool] {
+    override def &(p: Bool, q: Bool): Bool = (p, q) match {
+      case (T, T) => T
+      case (F, _) => F
+      case (_, F) => F
+      case (_, _) => ?
+    }
+
+    override def |(p: Bool, q: Bool): Bool = (p, q) match {
+      case (F, F) => F
+      case (T, _) => T
+      case (_, T) => T
+      case (_, _) => ?
+    }
+
+    override def ~(p: Bool): Bool = p match {
+      case F => T
+      case T => F
+      case _ => ?
+    }
+  }
+```
+
+Теперь можно писать
+```scala
+val x = (~F & ?) | T
+```
 
 - {Bool, '&'} - моноид, нейтральный елемент 'T'.
 - {Bool, '|'} - моноид, нейтральный елемент 'F'.
@@ -50,15 +117,3 @@ Bool = {T, F}
 Почему этот тип и его комбинаторы важны? 
 Потому, что они позволяют распространить ??? на предикаты - функции из A => Bool
 
-### Example #2: Ord: {LT, EQ, GT}
-|   ~>   | LT | EQ | GT |    
-|--------|----|----|----|
-| **LT** | LT | LT | LT |
-| **EQ** | LT | EQ | GT |
-| **GT** | GT | GT | GT |
-
-|   ~>  | < | = | > |    
-|-------|---|---|---|
-| **<** | < | < | < |
-| **=** | < | = | > |
-| **>** | > | > | > |
