@@ -42,7 +42,7 @@ object Bool extends Enumeration {
 }
 ```
 
-зададим Boolean Algebra - набор из унарного и пары бинарных операций (~, &, |)
+зададим BooleanAlgebra - набор из унарного и пары бинарных операций (~, &, |)
 ```scala
   trait BooleanAlgebra[A] {
     def &(p: A, q: A): A
@@ -51,7 +51,7 @@ object Bool extends Enumeration {
   }
 ```
 
-создадим для Booleaan Algebra - переход к префиксному/инфиксному виду операторов
+создадим для BooleaanAlgebra - переход к префиксному/инфиксному виду операторов
 ```scala
   implicit class BoolAlgebraOps[A](p: A)(implicit alg: BooleanAlgebra[A]) {
     def &(q: A): A = alg.&(p, q)
@@ -83,27 +83,25 @@ Not: '~'
 
 Можем создать BooleanAlgebra для типа Bool. Значения оператора задаем просто таблично.
 ```scala
-  implicit val boolBooleanAlgebra = new BooleanAlgebra[Bool] {
-    override def &(p: Bool, q: Bool): Bool = (p, q) match {
-      case (T, T) => T
-      case (F, _) => F
-      case (_, F) => F
-      case (_, _) => ?
-    }
-
-    override def |(p: Bool, q: Bool): Bool = (p, q) match {
-      case (F, F) => F
-      case (T, _) => T
-      case (_, T) => T
-      case (_, _) => ?
-    }
-
-    override def ~(p: Bool): Bool = p match {
-      case F => T
-      case T => F
-      case _ => ?
-    }
+implicit val boolBooleanAlgebra = new BooleanAlgebra[Bool] {
+  override def &(p: Bool, q: Bool): Bool = (p, q) match {
+    case (T, T) => T
+    case (F, _) => F
+    case (_, F) => F
+    case (_, _) => ?
   }
+  override def |(p: Bool, q: Bool): Bool = (p, q) match {
+    case (F, F) => F
+    case (T, _) => T
+    case (_, T) => T
+    case (_, _) => ?
+  }
+  override def ~(p: Bool): Bool = p match {
+    case F => T
+    case T => F
+    case _ => ?
+  }
+}
 ```
 
 Теперь можно писать
@@ -158,10 +156,10 @@ val in10to20or50to60 = (gte(10) & lte(20)) | (gte(50) & lte(60))
 
 Определив более интересные имена для комбинаторов, сможем говорить про комбинаторы полупрямых 
 ```scala
-  implicit class X[A: Ordering](point: A) {
-    def |->(): A => Bool = _ >= point
+  implicit class X[A: Ordering](min: A) {
+    def |->(): A => Bool = _ >= min
   }
-  def <-|[A: Ordering](point: A): A => Bool = _ <= point
+  def <-|[A: Ordering](max: A): A => Bool = _ <= max
 ```
 
 Можем писать
@@ -194,9 +192,9 @@ implicit class IntervalOps[A: Ordering](min: A) {
 }
 ```
  
-Теперь ту же пару отрезком можно записать как
+Теперь ту же пару отрезков можно записать как
 ```scala
-val in10to20or50to6a = (10 |-| 20) ∪ (50 |-| 60) \ ∘(55)
+val in10to20or50to6a = (10 |-| 20) ∪ (50 |-| 60)
 ```
 или как
 ```scala
@@ -227,7 +225,7 @@ val checkStreet: String => Bool = _.length > 3
 val positive: Int => Bool = gte(0)
 ```
 
-Используя lens Operator ''
+Используя Field Extractor Operator 'ω'
 ```scala
 class ω[A] {
   def apply[B](f: A => B) = new {
@@ -261,3 +259,25 @@ val checkUserX: User => Bool =
   (ω[User](_.address.house)  *> positive) &  
   (ω[User](_.address.flat)   *> positive)
 ```
+
+#### Logic Quantifiers as Combinators
+Обратим внимание, что даже с добавленным знаком '?'
+{Bool, '&'} - это моноид с нейтральным елементом 'T'
+{Bool, '|'} - это моноид с нейтральным елементом 'F'
+
+Это позволяет нам строить сверточные комбинаторы 
+```scala
+  // '∀' - allOf
+  def ∀[A](xs: (A => Bool)*): A => Bool =
+    (xs :\ ((_: A) => T: Bool)) (_ & _)
+  // '∃' - anyOf
+  def ∃[A](xs: (A => Bool)*): A => Bool =
+    (xs :\ ((_: A) => F: Bool)) (_ | _)
+```
+
+и записывать
+```scala
+val allOf = ∀((_: Int) > 0, (_: Int) < 10, (_: Int) % 2 == 0)
+val anyOf = ∃((_: Int) > 0, (_: Int) < 10, (_: Int) % 2 == 0)
+```
+
