@@ -213,16 +213,51 @@ def ∘(point: Int) = point |-| point
 val in10to20or50to6 = (10 |-| 20) ∪ (50 |-| 61) \ ∘(61)
 ```
 
-### Bisiness Model Validators Combinators
+#### Bisiness Model Validators Combinators
 пусть у нас есть модель, заданная в виде иерархии Algebraic data Types
 ```scala
+case class Address(street: String, house: Int, flat: Int)
+case class User(name: String, age: Int, address: Address)
 ```
 
+И валидаторы
+```scala
+val checkName: String => Bool = _.length > 3
+val checkStreet: String => Bool = _.length > 3
+val positive: Int => Bool = gte(0)
+```
 
-- {Bool, '&'} - моноид, нейтральный елемент 'T'.
-- {Bool, '|'} - моноид, нейтральный елемент 'F'.
-- {Bool, '&', '|'} - кольцо, ???.
+Используя lens Operator ''
+```scala
+class ω[A] {
+  def apply[B](f: A => B) = new {
+    def *>[C](p: B => C): (A => C) = a => p(f(a))
+  }
+}
+object ω {
+  def apply[A]: ω[A] = new ω[A]
+}
+  ```
 
-Почему этот тип и его комбинаторы важны? 
-Потому, что они позволяют распространить ??? на предикаты - функции из A => Bool
+Сможем декларативно строить сложные валидаторы с использованием композиции
+```scala
+val checkAddress: Address => Bool =
+  (ω[Address](_ street) *> checkStreet) &
+  (ω[Address](_ house)  *> positive) &
+  (ω[Address](_ flat)   *> positive)
 
+val checkUser: User => Bool =
+  (ω[User](_ name)    *> checkName) &
+  (ω[User](_ age)     *> positive) &
+  (ω[User](_ address) *> checkAddress)
+```
+
+Или монолитом
+```scala
+val checkUserX: User => Bool =
+  (ω[User](_ name) *> checkName) &
+  (ω[User](_ age)  *> positive) &
+  (ω[User](_.address.street) *> checkStreet) &  
+  (ω[User](_.address.house)  *> positive) &  
+  (ω[User](_.address.flat)   *> positive)
+```
