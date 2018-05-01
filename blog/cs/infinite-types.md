@@ -49,3 +49,7 @@ JLS 9: ["15.8.1. Lexical Literals"](https://docs.oracle.com/javase/specs/jls/se9
 ```scala
 val x: Null = null
 ```
+
+## Links
+- Java Bug Database["JDK-4993221 : Produce infinite types from lub as required by JLS"](https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4993221)
+- 
