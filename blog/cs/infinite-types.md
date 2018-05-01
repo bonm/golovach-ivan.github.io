@@ -7,6 +7,28 @@ Java Language Spec 9: ["4.10.4. Least Upper Bound"](https://docs.oracle.com/java
 
 > The possibility of an **infinite type** stems from the recursive calls to lub(). Readers familiar with recursive types should note that an **infinite type** is not the same as a recursive type.
 
+## Example #1
+```java
+class A<T> {}
+class B extends A<B> {}
+class C extends A<C> {}
+```
+```java
+<T> T choose(T x, T y) {
+  return x;
+}
+```
+```java
+  B b = new B();
+  C c = new C();
+  A<?> approx0 = choose(b, c);
+  A<? extends A<?>> approx1 = choose(b, c);
+  A<? extends A<? extends A<?>>> approx2 = choose(b, c);
+  A<? extends A<? extends A<? extends A<?>>>> approx3 = choose(b, c);
+  A<? extends A<? extends A<? extends A<? extends A<?>>>>> approx4 = choose(b, c);
+  ...
+```
+
 ## Inexpressible, but not Infinite Types
 ### Structural Type example
 Следующий код компилируется и запускается в Java.
