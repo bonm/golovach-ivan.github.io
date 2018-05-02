@@ -1,5 +1,3 @@
-<html>
-<pre>
 Hello. 
 My name is Golovach Ivan. 
 I'm remote Scala/Java contractor with specialization in complex topics on JVM (functional programming, concurrency, distributed systems, crypto).
@@ -11,11 +9,11 @@ I come from classical math. As a usally my work is
 
 Performance and  concurrency come from network and distributed systems.
 
-I like TDD, Git, ???
+- Infinite types in Java/Scala
+- Combinators: Intro (Part - 0)
+- Combinators: Boolean Algebra, Validator Combinators (Part - I)
+- Combinators: Product/Coproduct Combinators (Part - II)
 
-Sometimes i teach
-</pre>
-<ul>
 
 universal-and-existential-types
 <li><a href="/computer-science/">Computer Science</a>
