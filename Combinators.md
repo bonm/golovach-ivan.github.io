@@ -37,6 +37,31 @@
 
 Keywords: Boolean Algebra, Monoid, Functional Type, Product Type, 
 
+===
+#### Type Generators
+```scala
+  type T = Bool
+  type T[A] = A → Bool
+  type T[A, B] = A :+: B
+  
+  ∀[A].(A :: HNil) ⊂ HList
+  ∀[A].∀[B ⊂ HList].(A :: B) ⊂ HList
+  
+  ∀[A].(A :+: CNil) ⊂ Coproduct
+  ∀[A].∀[B ⊂ Coproduct].(A :: B) ⊂ Coproduct
+```
+#### Type Combinators
+#### Value Generators
+#### Value Combinators
+===
+
+|                              | Type Generators | Type Combinators | Value generators | Value Combinators |   
+|------------------------------|-----------------|------------------|------------------|-------------------|
+| **Boolean Algebra**          | ∅ → A: Bool     |         -        | ∅ → A: {T,F,?}   |                   |
+| **Predicate Combinators**    |                 |                  |                  |                   |
+| **Line sub-set Combinators** |                 |                  |                  |                   |
+| **Product/Coproduct**        |                 |                  |                  |                   |
+
 В этой статье рассмотрим
 1) комбинаторы булевой алгебры
 ```scala
@@ -52,15 +77,24 @@ val y = (~x | ~(T & ?))
 val z = (x | y | ?) & x & y
 ```
 2) комбинаторы предикатов
+```scala
+// Types
+//     type V[A] = A → Bool
+// Generators: 
+//     ...
+// Combinators: 
+//     V[A] ⨯ V[A] → V[A]: {'∪', '∩', '\'}
+???
+```
 3) комбинаторы подмножеств прямой
 ```scala
 // Types
 //     type A = Int → Bool
 // Generators: 
-//     Int → A: {'∘'} // selected point
-//     Int ⨯ Int → A: {'|-|', '<->', '<-|', '|->'} // segments (close, open, half-open)
+//     Int → A: {'∘'}
+//     Int ⨯ Int → A: {'|-|', '<->', '<-|', '|->'}
 // Combinators: 
-//     A ⨯ A → A: {'∪', '∩', '\'} // union, intersection, diff segments
+//     A ⨯ A → A: {'∪', '∩', '\'}
 val subset = (10 |-| 20) ∪ (50 <-> 60) \ ∘(55)
 ```
 4) комбинаторы валидаторов
@@ -68,10 +102,10 @@ val subset = (10 |-| 20) ∪ (50 <-> 60) \ ∘(55)
 // Type constructors
 //     type V[X] = X → Bool
 // Generators
-//     ∀A.∀B.∀f:A→B.∀g:B→Bool.ω[A](f)*>g: A → Bool
+//     ...
 // Combinators
-//    ∀A, V[A] → V[A]: {'~'}
-//    ∀A, V[A] ⨯ V[A] → V[A]: {'&', '|'}
+//     ∀A, V[A] → V[A]: {'~'}
+//     ∀A, V[A] ⨯ V[A] → V[A]: {'&', '|'}
 val checkAddress: Address => Bool =
   (ω[Address](_ street) *> checkStreet) &
   (ω[Address](_ house)  *> positive) &
@@ -81,6 +115,15 @@ val checkUser: User => Bool =
   (ω[User](_ name)    *> checkName) &
   (ω[User](_ age)     *> positive) &
   (ω[User](_ address) *> checkAddress)
+```
+5) Расширить Logic Quantifiers as Combinators
+```scala
+// Type constructors
+//     type V[X] = X → Bool
+// Generators
+//     ...
+// Combinators
+//     ∀A, V[A]* → V[A]: {'∀', '∃'}
 ```
 
 ## Type - finite fixed-size set
