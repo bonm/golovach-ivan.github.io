@@ -1,5 +1,18 @@
 # Combinators as Lifestyle
 
+## Brief Overview
+**Generators**
+```scala
+  val subsetA = 𝔸
+  val subsetB = ∘(100)
+  val subsetC = 10 |-| 20
+  val subsetD = 50 <-> 60  
+```
+**Combinators**
+```scala
+  val subset = (subsetA ∪ subsetB) ∩ ~subsetC
+```
+
 ## Value and Type levels
 ## Generators and Combinators
 
