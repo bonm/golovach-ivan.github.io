@@ -1,5 +1,8 @@
 # Combinators as Lifestyle
 
+## Value and Type levels
+## Generators and Combinators
+
 - Value Combinators
   - Data-Value Combinators
     - Fixed-size set (Example: Bool, Ord)
@@ -27,39 +30,88 @@
 
 Итак, Combinator - это операция на типе (моносортная) или типах (полисортная).
 
-## Type - fixed-size set
-Рассмотрим простейший случай, тип - множество фиксированного размера, операцию можно задать таблично.
+- Value-level, One Type - finite fixed-size set
+    - Example #1: Bool
+    - Part I: Boolean Combinators
+    - Part II: Predicate Combinators
+
+Keywords: Boolean Algebra, Monoid, Functional Type, Product Type, 
+
+В этой статье рассмотрим
+1) комбинаторы булевой алгебры
+```scala
+// Types
+//     type A = Bool
+// Generators: 
+//    ∅ → A: {'T', 'F', '?'}
+// Combinators: 
+//     A → A: {'~'}
+//     A ⨯ A → A: {'&', '|'}
+val x = (~F & ?) | T
+val y = (~x | ~(T & ?))
+val z = (x | y | ?) & x & y
+```
+2) комбинаторы предикатов
+3) комбинаторы подмножеств прямой
+```scala
+// Types
+//     type A = Int → Bool
+// Generators: 
+//     Int → A: {'∘'} // selected point
+//     Int ⨯ Int → A: {'|-|', '<->', '<-|', '|->'} // segments (close, open, half-open)
+// Combinators: 
+//     A ⨯ A → A: {'∪', '∩', '\'} // union, intersection, diff segments
+val subset = (10 |-| 20) ∪ (50 <-> 60) \ ∘(55)
+```
+4) комбинаторы валидаторов
+```scala
+// Type constructors
+//     type V[X] = X → Bool
+// Generators
+//     ∀A.∀B.∀f:A→B.∀g:B→Bool.ω[A](f)*>g: A → Bool
+// Combinators
+//    ∀A, V[A] → V[A]: {'~'}
+//    ∀A, V[A] ⨯ V[A] → V[A]: {'&', '|'}
+val checkAddress: Address => Bool =
+  (ω[Address](_ street) *> checkStreet) &
+  (ω[Address](_ house)  *> positive) &
+  (ω[Address](_ flat)   *> positive)
+
+val checkUser: User => Bool =
+  (ω[User](_ name)    *> checkName) &
+  (ω[User](_ age)     *> positive) &
+  (ω[User](_ address) *> checkAddress)
+```
+
+## Type - finite fixed-size set
+Рассмотрим простейший случай, тип - конечное множество фиксированного размера. В таком случае n-арные операции можно задать таблично.
 
 ### Example #1: Bool
 #### Part I: Boolean Combinators
-Рассмотрим булевский тип, но для интереса рассмотрим не scala.Boolean, а наш собственный Bool. Добавим в него для интереса неопреленный тип `?`.
-Bool = {T, F, ?}
-
+Рассмотрим логический тип c добавленным неопреленным значением `?`.
 ```scala
+// Bool = T | F | ?
 object Bool extends Enumeration {
   type Bool = Value
   val T, F, ? = Value
 }
 ```
 
-зададим BooleanAlgebra - набор из унарного и пары бинарных операций (~, &, |)
+Ожидаемым набором операций для этого типа являются операции булевой алгебры ('~', '&', '|').
 ```scala
-  trait BooleanAlgebra[A] {
-    def &(p: A, q: A): A
-    def |(p: A, q: A): A
-    def ~(p: A): A
-  }
+// Boolean Algebra Type Class
+trait BooleanAlgebra[A] {
+  def &(p: A, q: A): A
+  def |(p: A, q: A): A
+  def ~(p: A): A
+}
 ```
 
-создадим для BooleaanAlgebra - переход к префиксному/инфиксному виду операторов
-```scala
-  implicit class BoolAlgebraOps[A](p: A)(implicit alg: BooleanAlgebra[A]) {
-    def &(q: A): A = alg.&(p, q)
-    def |(q: A): A = alg.|(p, q)
-    def unary_~(): A = alg.~(p)
-  }
-```
-And: '&'
+Их табличные определения
+
+|   ~   | T | F | ? |    
+|-------|---|---|---|
+|       | F | T | ? |
 
 |   &   | F | T | ? |
 |-------|---|---|---|
@@ -67,21 +119,13 @@ And: '&'
 | **T** | F | T | ? |
 | **?** | F | ? | ? |
 
-Or: '|'
-
 |  \|   | T | F | ? |    
 |-------|---|---|---|
 | **T** | T | T | T |
 | **F** | T | T | ? |
 | **?** | T | ? | ? |
 
-Not: '~'
-
-|   ~   | T | F | ? |    
-|-------|---|---|---|
-|       | F | T | ? |
-
-Можем создать BooleanAlgebra для типа Bool. Значения оператора задаем просто таблично.
+естественно переносятся в код
 ```scala
 implicit val boolBooleanAlgebra = new BooleanAlgebra[Bool] {
   override def &(p: Bool, q: Bool): Bool = (p, q) match {
@@ -104,9 +148,12 @@ implicit val boolBooleanAlgebra = new BooleanAlgebra[Bool] {
 }
 ```
 
+Мы имеем 0-арные генераторы констант {T, F, ?}: Bool и тройку комбинаторов ({~\_}: Bool => Bool, {\_&\_, \_|\_}: (Bool, Bool) => Bool)
 Теперь можно писать
 ```scala
 val x = (~F & ?) | T
+val y = (~x | ~(T & ?))
+val z = (x | y | ?) & x & y
 ```
 
 #### Part II: Predicate Combinators
