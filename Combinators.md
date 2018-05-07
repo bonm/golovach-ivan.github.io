@@ -1,12 +1,18 @@
 # Combinators as Lifestyle
 
 ## Brief Overview
+
+```scala
+  val subset = (𝔸 ∪ ∘(100)) ∩ ~(50 <-> 60)
+```
 **Generators**
 ```scala
+  // ∅ → A
   val subsetA = 𝔸
+  // Int → A
   val subsetB = ∘(100)
-  val subsetC = 10 |-| 20
-  val subsetD = 50 <-> 60  
+  // Int ⨯ Int → A
+  val subsetC = 50 <-> 60  
 ```
 **Combinators**
 ```scala
